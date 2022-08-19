@@ -1,6 +1,6 @@
 {
   "name": "@alexkurasa/react-horizontal-scrolling-menu",
-  "version": "3.2.0",
+  "version": "1.0.0",
   "author": "alexkurasa",
   "description": "Scrolling horizontal menu component for React, support mouse and touch devices.",
   "license": "ISC",
@@ -11,9 +11,8 @@
   "types": "dist/types/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alexkurasa/react-horizontal-scrolling-menu.git"
+    "url": "git://github.com/alexkurasa/react-horizontal-scrolling-menu.git"
   },
-  "registry": "https://npm.pkg.github.com/@alexkurasa",
   "exports": {
     ".": {
       "browser": "./dist/index.umd.js",
@@ -178,5 +177,12 @@
       "path": "cz-conventional-changelog"
     }
   },
-  "packageManager": "yarn@1.22.1"
+  "packageManager": "yarn@1.22.1",
+  "bugs": {
+    "url": "https://github.com/alexkurasa/react-horizontal-scrolling-menu/issues"
+  },
+  "homepage": "https://github.com/alexkurasa/react-horizontal-scrolling-menu#readme",
+  "directories": {
+    "doc": "docs"
+  }
 }
