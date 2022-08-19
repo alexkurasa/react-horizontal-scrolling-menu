@@ -100,6 +100,12 @@ export interface Props {
    Handler for mouse wheel
    */
   onWheel?: (api: publicApiType, ev: React.WheelEvent) => void;
+  onTouchStart?: (api: publicApiType, ev: React.TouchEvent) => void;
+  onTouchEnd?: (api: publicApiType, ev: React.TouchEvent) => void;
+  onTouchMove?: (api: publicApiType, ev: React.TouchEvent) => void;
+  onPointerUp?: (api: publicApiType, ev: React.PointerEvent) => void;
+  onPointerMove?: (api: publicApiType, ev: React.PointerEvent) => void;
+  onPointerDown?: (api: publicApiType, ev: React.PointerEvent) => void;
   /**
     Options for intersection observer
    */
@@ -157,6 +163,12 @@ function ScrollMenu({
   onMouseMove,
   onScroll = (): void => void 0,
   onWheel = (): void => void 0,
+  onTouchStart = () => null,
+  onTouchEnd = () => null,
+  onPointerDown = () => null,
+  onPointerUp = () => null,
+  onPointerMove = () => null,
+  onTouchMove = () => null,
   options = defaultObserverOptions,
   scrollContainerClassName = '',
   itemClassName = '',
@@ -244,13 +256,45 @@ function ScrollMenu({
     ),
   });
 
-  React.useEffect(() => setContext(getContext()), [getContext]);
+  React.useEffect(() => {
+    setContext(getContext());
+  }, [getContext]);
 
   apiRef.current = context;
 
   const scrollHandler = React.useCallback(
     (event: React.UIEvent) => onScroll(context, event),
     [onScroll, context]
+  );
+
+  const onTouchStarthandler = React.useCallback(
+    (event: React.TouchEvent) => onTouchStart(context, event),
+    [onTouchStart, context]
+  );
+
+  const onTouchEndhandler = React.useCallback(
+    (event: React.TouchEvent) => onTouchEnd(context, event),
+    [onTouchEnd, context]
+  );
+
+  const onPointerUpHandler = React.useCallback(
+    (event: React.PointerEvent) => onPointerUp(context, event),
+    [onPointerUp, context]
+  );
+
+  const onPointerMoveHandler = React.useCallback(
+    (event: React.PointerEvent) => onPointerMove(context, event),
+    [onPointerMove, context]
+  );
+
+  const onPointerDownHandler = React.useCallback(
+    (event: React.PointerEvent) => onPointerDown(context, event),
+    [onPointerDown, context]
+  );
+
+  const onTouchMoveHandler = React.useCallback(
+    (event: React.TouchEvent) => onTouchMove(context, event),
+    [onTouchMove, context]
   );
 
   const onWheelHandler = React.useCallback(
@@ -279,12 +323,20 @@ function ScrollMenu({
     >
       <VisibilityContext.Provider value={context}>
         <div className={constants.headerClassName}>{Header}</div>
-        <div className={constants.innerWrapperClassName}>
+        <div
+          className={constants.innerWrapperClassName}
+          onPointerUp={onPointerUpHandler}
+          onPointerMove={onPointerMoveHandler}
+          onPointerDown={onPointerDownHandler}
+        >
           <div className={constants.arrowLeftClassName}>{LeftArrow}</div>
           <ScrollContainer
             className={containerClassName}
             onScroll={scrollHandler}
             scrollRef={scrollContainerRef}
+            onTouchStart={onTouchStarthandler}
+            onTouchEnd={onTouchEndhandler}
+            onTouchMove={onTouchMoveHandler}
           >
             <MenuItems
               refs={menuItemsRefs}
